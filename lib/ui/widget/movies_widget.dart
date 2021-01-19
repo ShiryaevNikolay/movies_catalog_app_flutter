@@ -5,7 +5,7 @@ import 'package:film_catalog_app_flutter/data/service/network_service.dart';
 import 'package:film_catalog_app_flutter/ui/view/movie_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:http/http.dart' as http;
+// import 'package:http/http.dart' as http;
 
 class MoviesWidget extends StatefulWidget {
 

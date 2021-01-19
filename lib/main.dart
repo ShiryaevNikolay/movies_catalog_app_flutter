@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
       create: (_) => NetworkService.create(),
       dispose: (_, NetworkService service) => service.client.dispose(),
       child: MaterialApp(
-        title: 'Flutter Demo',
+        title: 'Movie catalog',
         theme: ThemeData(
           primarySwatch: Colors.blue,
           visualDensity: VisualDensity.adaptivePlatformDensity,
