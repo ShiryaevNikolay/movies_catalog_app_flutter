@@ -29,7 +29,23 @@ class _MovieCardState extends State<MovieCard> {
       color: Colors.white,
       child: Row(
         children: [
-          Image.network("https://image.tmdb.org/t/p/w185${widget._mImgUrl}", width: 150,),
+          Image.network(
+            "https://image.tmdb.org/t/p/w500${widget._mImgUrl}", width: 150,
+            loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent loadingProgress) {
+              if (loadingProgress == null) return child;
+              return Center(
+                child: Container(
+                  padding: EdgeInsets.all(10),
+                  child: CircularProgressIndicator(
+                    value: loadingProgress.expectedTotalBytes != null
+                        ? loadingProgress.cumulativeBytesLoaded /
+                            loadingProgress.expectedTotalBytes
+                        : null,
+                  ),
+                ),
+              );
+            },
+          ),
           Flexible(
             child: Container(
               padding: EdgeInsets.all(10),
