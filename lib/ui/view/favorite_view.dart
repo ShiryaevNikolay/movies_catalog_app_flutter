@@ -29,6 +29,7 @@ class _CheckFavoriteState extends State<CheckFavorite> {
   void toggleCheckbox() {
     setState(() {
       _isChecked = !_isChecked;
+      // TODO: сохранение в бд
     });
   }
 }

@@ -1,4 +1,4 @@
-import 'package:film_catalog_app_flutter/data/service/network_service.dart';
+// import 'package:film_catalog_app_flutter/data/service/network_service.dart';
 import 'package:film_catalog_app_flutter/ui/pages/home_page.dart';
 import 'package:flutter/material.dart';
 
@@ -9,6 +9,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
         title: 'Movie catalog',
         theme: ThemeData(
           primarySwatch: Colors.blue,

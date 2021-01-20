@@ -22,7 +22,8 @@ class _HomePageState extends State<HomePage> {
     final double statusBarHeight = MediaQuery.of(context).padding.top;
 
     return BlocProvider<MovieCubit>(
-      create: (context) => MovieCubit(_mRepository),
+      create: (context) => MovieCubit(_mRepository..getMovie()),
+      lazy: true,
       child: Scaffold(
         body: Center(
           child: Column(

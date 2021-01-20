@@ -12,11 +12,7 @@ class MovieList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    // final _bloc = BlocProvider.of<MovieBloc>(context);
-
-    // _bloc.add(MovieLoadEvent());
-
+    
     final _cubit = BlocProvider.of<MovieCubit>(context);
 
     _cubit.fetchMovie();

@@ -22,8 +22,4 @@ class MovieCubit extends Cubit<MovieState> {
       emit(MovieFailureState());
     }
   }
-
-  Future<void> nextPage() async {
-    // TODO: load next page
-  }
 }
