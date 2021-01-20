@@ -1,43 +1,28 @@
 import 'dart:async';
 
+import 'package:film_catalog_app_flutter/data/model/movie.dart';
 import 'package:film_catalog_app_flutter/domain/bloc/movie_event.dart';
 import 'package:film_catalog_app_flutter/domain/bloc/movie_state.dart';
+import 'package:film_catalog_app_flutter/domain/repository/repository.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 
-class MovieBloc {
+class MovieBloc extends Bloc<MovieEvent, MovieState> {
 
-  final _inputEventController = StreamController<MovieEvent>();
+  final Repository repository;
 
-  final _outputStateController = StreamController<MovieState>.broadcast();
+  MovieBloc(this.repository) : super(MovieInitialState());
 
-  Sink<MovieEvent> get inputEvetSink => _inputEventController.sink;
-
-  Stream<MovieState> get outputStateStream => _outputStateController.stream;
-
-  MovieBloc() {
-    _inputEventController.stream.listen(_onEvent);
-    _outputStateController.add(MovieInitial());
-  }
-
-  void _onEvent(event) {
-    if (event == MovieEventFetch) {
-      _outputStateController.add(MovieLoading());
-      _fetchItems()
-        .then((items) {
-          _outputStateController.add(MovieSuccess(items));
-        })
-        .catchError((error) {
-          _outputStateController.add(MovieFailure(error?.toString()));
-        });
+  @override
+  Stream<MovieState> mapEventToState(MovieEvent event) async* {
+    if (event is MovieLoadEvent) {
+      yield MovieLoadingState();
+      try {
+        final List<Movie> _loadedMovieList = await repository.getMovie();
+        yield MovieSuccessState(loadedMovie: _loadedMovieList);
+      } catch (_) {
+        yield MovieFailureState();
+      }
     }
-  }
-
-  void close() {
-    _inputEventController.close();
-    _outputStateController.close();
-  }
-
-  Future _fetchItems() {
-
   }
 }

@@ -1,3 +1,6 @@
+import 'package:film_catalog_app_flutter/data/model/movie.dart';
+import 'package:film_catalog_app_flutter/data/service/network_service.dart';
+
 class Repository {
   
   static final Repository _repository = Repository._internal();
@@ -6,7 +9,7 @@ class Repository {
 
   Repository._internal();
 
-  Future fetchMovie() {
+  NetworkService _networkService = NetworkService();
 
-  }
+  Future<List<Movie>> getMovie() => _networkService.getMovie();
 }

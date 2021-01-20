@@ -3,16 +3,13 @@ import 'package:flutter/cupertino.dart';
 @immutable
 abstract class MovieState {}
 
-class MovieInitial extends MovieState {}
+class MovieInitialState extends MovieState {}
 
-class MovieLoading extends MovieState {}
+class MovieLoadingState extends MovieState {}
 
-class MovieSuccess<T> extends MovieState {
-  MovieSuccess(this.items);
-  final Iterable<T> items;
+class MovieSuccessState<T> extends MovieState {
+  List<dynamic> loadedMovie;
+  MovieSuccessState({@required this.loadedMovie}) : assert(loadedMovie != null);
 }
 
-class MovieFailure extends MovieState {
-  MovieFailure(this.errorMessage);
-  final String errorMessage;
-}
+class MovieFailureState extends MovieState {}
