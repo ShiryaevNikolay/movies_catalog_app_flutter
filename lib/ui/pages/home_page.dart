@@ -1,4 +1,5 @@
-import 'package:film_catalog_app_flutter/domain/bloc/movie_bloc.dart';
+// import 'package:film_catalog_app_flutter/domain/bloc/movie_bloc.dart';
+import 'package:film_catalog_app_flutter/domain/cubit/movie_cubit.dart';
 import 'package:film_catalog_app_flutter/domain/repository/repository.dart';
 import 'package:film_catalog_app_flutter/ui/view/search_view.dart';
 import 'package:film_catalog_app_flutter/ui/widget/movie_list_widget.dart';
@@ -20,8 +21,8 @@ class _HomePageState extends State<HomePage> {
     // Получаем высоту статус бара
     final double statusBarHeight = MediaQuery.of(context).padding.top;
 
-    return BlocProvider<MovieBloc>(
-      create: (context) => MovieBloc(_mRepository),
+    return BlocProvider<MovieCubit>(
+      create: (context) => MovieCubit(_mRepository),
       child: Scaffold(
         body: Center(
           child: Column(

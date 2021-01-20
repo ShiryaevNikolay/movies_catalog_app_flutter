@@ -1,6 +1,8 @@
-import 'package:film_catalog_app_flutter/domain/bloc/movie_bloc.dart';
-import 'package:film_catalog_app_flutter/domain/bloc/movie_event.dart';
-import 'package:film_catalog_app_flutter/domain/bloc/movie_state.dart';
+// import 'package:film_catalog_app_flutter/domain/bloc/movie_bloc.dart';
+// import 'package:film_catalog_app_flutter/domain/bloc/movie_event.dart';
+// import 'package:film_catalog_app_flutter/domain/bloc/movie_state.dart';
+import 'package:film_catalog_app_flutter/domain/cubit/movie_cubit.dart';
+import 'package:film_catalog_app_flutter/domain/cubit/movie_state.dart';
 import 'package:film_catalog_app_flutter/ui/view/movie_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,11 +13,15 @@ class MovieList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final MovieBloc _bloc = BlocProvider.of<MovieBloc>(context);
+    // final _bloc = BlocProvider.of<MovieBloc>(context);
 
-    _bloc.add(MovieLoadEvent());
+    // _bloc.add(MovieLoadEvent());
 
-    return BlocBuilder<MovieBloc, MovieState>(
+    final _cubit = BlocProvider.of<MovieCubit>(context);
+
+    _cubit.fetchMovie();
+
+    return BlocBuilder<MovieCubit, MovieState>(
       builder: (context, state) {
         if (state is MovieInitialState) {
           return _buildInitialState(context);
