@@ -11,10 +11,10 @@ class MovieCard extends StatefulWidget {
   List<String> _mReleaseDate;
 
   MovieCard (dynamic movie) {
-    this._mTitle = movie["title"];
-    this._mOverview = movie["overview"];
-    this._mImgUrl = movie["poster_path"];
-    this._mReleaseDate = movie["release_date"].split("-");
+    this._mTitle = movie.mTitle;
+    this._mOverview = movie.mOverview;
+    this._mImgUrl = movie.mPosterPath;
+    this._mReleaseDate = movie.mReleaseDate.split("-");
   }
 
   @override
