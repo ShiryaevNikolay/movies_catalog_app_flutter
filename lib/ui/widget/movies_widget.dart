@@ -17,7 +17,7 @@ class _MoviesWidgetState extends State<MoviesWidget> {
   @override
   Widget build(BuildContext context) {
 
-    _getResponse(context);
+    // _getResponse(context);
     // _getMovies();
 
     return Center(
@@ -35,16 +35,36 @@ class _MoviesWidgetState extends State<MoviesWidget> {
   //   });
   // }
 
-  void _getResponse(BuildContext context) async {
-    final response = await Provider.of<NetworkService>(context).getMovies();
-    print(response);
-  }
+  // void _getResponse(BuildContext context) async {
+  //   final response = await Provider.of<NetworkService>(context).getMovies();
+  //   print(response);
+  // }
 
   FutureBuilder<Response> _buildBody(BuildContext context) {
+
+    final snackBar = SnackBar(content: Text("Проверьте ваше соединение с интернетом и попробуйте ещё раз"));
+
     return FutureBuilder<Response>(
       future: Provider.of<NetworkService>(context).getMovies(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.hasError) {
+
+            Scaffold.of(context).showSnackBar(snackBar);
+
+            return Center(
+              child: Container(
+                color: Colors.red,
+                padding: EdgeInsets.all(10),
+                child: Column(
+                  children: [
+                    Icon(Icons.error, size: 50, color: Theme.of(context).accentColor,),
+                    Text("Нам не удалось обработать ваш запрос. Попробуйте ещё раз", textAlign: TextAlign.center, style: TextStyle(color: Colors.white),)
+                  ]
+                ),
+              )
+            );
+          }
           Map<String, dynamic> data = json.decode(snapshot.data.bodyString);
           final List<dynamic> movies = data["results"];
           return _buildMovies(context, movies);
