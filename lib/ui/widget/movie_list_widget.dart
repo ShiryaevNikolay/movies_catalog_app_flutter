@@ -15,7 +15,6 @@ class _MovieListState extends State<MovieList> {
   int _page = 1;
   MovieCubit _cubit;
   ScrollController _scrollController = ScrollController();
-  var _refreshKey = GlobalKey<RefreshIndicatorState>();
 
   @override
   void initState() {
@@ -44,6 +43,11 @@ class _MovieListState extends State<MovieList> {
     }
 
     if (state is MovieInitialized) {
+
+      if (!state.hasError && !state.isLoading) {
+        _page++;
+      }
+
       return _buildSuccessState(state);
     }
     return _buildInitialState(context);
@@ -56,8 +60,19 @@ class _MovieListState extends State<MovieList> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.error, size: 50, color: Theme.of(context).accentColor,),
-                Text("Нам не удалось обработать ваш запрос. Попробуйте ещё раз", textAlign: TextAlign.center, style: TextStyle(color: Colors.white),)
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.error, size: 50, color: Theme.of(context).accentColor,),
+                      Text("Нам не удалось обработать ваш запрос. Попробуйте ещё раз", textAlign: TextAlign.center, style: TextStyle(color: Colors.white),),
+                    ]
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Center(child: FloatingActionButton(child: Icon(Icons.refresh),onPressed: () { _cubit.fetchMovie(); })),
+                )
               ]
             ),
           )
@@ -76,13 +91,17 @@ class _MovieListState extends State<MovieList> {
                 child: Center(child: CircularProgressIndicator()),
               );
             } else {
-              return Padding(
-                padding: const EdgeInsets.all(10),
-                child: Center(child: Text("Данных нет", style: TextStyle(color: Colors.white),)),
-              );
+              return _buildRefreshBtn();
             }
           },
           controller: _scrollController,
+        );
+  }
+
+  Padding _buildRefreshBtn() {
+    return Padding(
+          padding: const EdgeInsets.all(10),
+          child: Center(child: FloatingActionButton(child: Icon(Icons.refresh),onPressed: () { _loadPage(); })),
         );
   }
 
@@ -101,19 +120,16 @@ class _MovieListState extends State<MovieList> {
         );
   }
 
-  Future<Null> refreshList() async {
-    _refreshKey.currentState.show(atTop: false);
-    _page++;
+  void _loadPage() {
+    print("PAGE: $_page");
     _cubit.loadNextPage(_page);
-    return null;
   }
 
   void _onScroll() {
     final maxScroll = _scrollController.position.maxScrollExtent;
     final currentScroll = _scrollController.position.pixels;
     if (currentScroll == maxScroll) {
-      _page++;
-      _cubit.loadNextPage(_page);
+      _loadPage();
     }
   }
 

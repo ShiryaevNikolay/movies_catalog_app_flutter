@@ -33,7 +33,6 @@ class MovieCubit extends Cubit<MovieState> {
       emit(MovieInitialized.success((state as MovieInitialized).movies + _loadedListMovie));
     } catch(_) {
       // обрабатываем ошибку
-      // emit((state as MovieInitialized).copyWith(hasError: true));
       emit(MovieInitialized.failure((state as MovieInitialized).movies));
     }
   }
