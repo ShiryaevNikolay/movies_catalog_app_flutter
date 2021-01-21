@@ -11,7 +11,7 @@ class Repository {
 
   NetworkService _networkService = NetworkService();
 
-  Future<List<Movie>> getMovie() => _networkService.getMovie();
+  Future<List<Movie>> getMovie(int page) => _networkService.getMovie(page);
 
   Future<List<Movie>> searchMovie() => _networkService.searchMovie();
 }

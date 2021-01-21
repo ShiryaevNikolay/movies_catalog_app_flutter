@@ -7,13 +7,10 @@ class NetworkService {
 
   final _apiKey = '6ccd72a2a8fc239b13f209408fc31c33';
 
-  int _page = 0;
 
-  Future<List<Movie>> getMovie() async {
+  Future<List<Movie>> getMovie(int page) async {
 
-    _page++;
-
-    final response = await http.get('https://api.themoviedb.org/3/discover/movie?api_key=$_apiKey&page=$_page');
+    final response = await http.get('https://api.themoviedb.org/3/discover/movie?api_key=$_apiKey&page=$page');
 
     if (response.statusCode == 200) {
       final List<dynamic> movieJson = json.decode(response.body)["results"];

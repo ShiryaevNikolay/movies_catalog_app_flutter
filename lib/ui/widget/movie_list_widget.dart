@@ -16,6 +16,7 @@ class MovieList extends StatefulWidget {
 
 class _MovieListState extends State<MovieList> {
 
+  int _page = 1;
   MovieCubit _cubit;
   ScrollController _scrollController = ScrollController();
 
@@ -100,7 +101,8 @@ class _MovieListState extends State<MovieList> {
     final maxScroll = _scrollController.position.maxScrollExtent;
     final currentScroll = _scrollController.position.pixels;
     if (currentScroll == maxScroll) {
-      _cubit.loadNextPage();
+      _page++;
+      _cubit.loadNextPage(_page);
     }
   }
 
