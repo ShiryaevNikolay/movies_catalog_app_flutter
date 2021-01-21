@@ -2,5 +2,6 @@
 
 A new Flutter project.
 
+* Moor
 * Cubit
 * BLoC

@@ -29,6 +29,7 @@ dependencies:
   provider: ^4.3.3
   flutter_bloc: ^6.1.1
   http: ^0.12.2
+  pagination_view: ^1.0.3+2
 
 dev_dependencies:
   flutter_test:
