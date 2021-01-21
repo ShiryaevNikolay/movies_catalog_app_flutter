@@ -20,8 +20,8 @@ class NetworkService {
     }
   }
 
-  Future<List<Movie>> searchMovie() async {
-    final response = await http.get('https://api.themoviedb.org/3/search/movie?api_key=$_apiKey&page');
+  Future<List<Movie>> searchMovie(String searchMovie) async {
+    final response = await http.get('https://api.themoviedb.org/3/search/movie?api_key=$_apiKey&query=$searchMovie');
 
     if (response.statusCode == 200) {
       final List<dynamic> movieJson = json.decode(response.body)["results"];

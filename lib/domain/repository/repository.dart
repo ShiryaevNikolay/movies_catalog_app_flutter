@@ -13,5 +13,5 @@ class Repository {
 
   Future<List<Movie>> getMovie(int page) => _networkService.getMovie(page);
 
-  Future<List<Movie>> searchMovie() => _networkService.searchMovie();
+  Future<List<Movie>> searchMovie(String search) => _networkService.searchMovie(search);
 }

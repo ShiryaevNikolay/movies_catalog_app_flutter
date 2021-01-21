@@ -8,13 +8,21 @@ class MovieCard extends StatefulWidget {
   String _mTitle = "";
   String _mOverview = "";
   String _mImgUrl = "";
-  List<String> _mReleaseDate;
+  String _mDate = "";
 
   MovieCard (dynamic movie) {
+    print(movie);
     this._mTitle = movie.mTitle;
     this._mOverview = movie.mOverview;
     this._mImgUrl = movie.mPosterPath;
-    this._mReleaseDate = movie.mReleaseDate.split("-");
+
+    // Преобразуем формат даты
+    try {
+      var listNumber = movie.mReleaseDate.split("-");
+      _mDate = formatDate(DateTime(int.parse(listNumber[0]), int.parse(listNumber[1]), int.parse(listNumber[2])), [d, ' ', MM, ' ', yyyy]);
+    } catch (_) {
+      _mDate = "";
+    }
   }
 
   @override
@@ -84,7 +92,7 @@ class _MovieCardState extends State<MovieCard> {
                             Container(
                               padding: EdgeInsets.symmetric(horizontal: 5),
                               child: Text(
-                                formatDate(DateTime(int.parse(widget._mReleaseDate[0]), int.parse(widget._mReleaseDate[1]), int.parse(widget._mReleaseDate[2])), [d, ' ', MM, ' ', yyyy]),
+                                widget._mDate,
                                 style: TextStyle(
                                   fontSize: 12, 
                                   fontWeight: FontWeight.w300

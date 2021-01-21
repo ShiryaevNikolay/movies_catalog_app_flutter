@@ -50,7 +50,37 @@ class _MovieListState extends State<MovieList> {
 
       return _buildSuccessState(state);
     }
+
+    if (state is MovieSearched) {
+      if (state.hasError) {
+        return _buildFailureSeatchState(context, state);
+      }
+      return _buildSuccessSearchState(state);
+    }
     return _buildInitialState(context);
+  }
+
+  ListView _buildSuccessSearchState(MovieSearched state) {
+    return ListView.builder(
+        itemCount: state.movies.length,
+        itemBuilder: (context, index) => MovieCard(state.movies[index]),
+        controller: _scrollController,
+      );
+  }
+
+  Center _buildFailureSeatchState(BuildContext context, MovieSearched state) {
+    return Center(
+        child: Container(
+          padding: EdgeInsets.all(10),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.search, size: 50, color: Theme.of(context).accentColor,),
+              Text("По запросу \"${state.text}\" ничего не найдено", textAlign: TextAlign.center, style: TextStyle(color: Colors.white),),
+            ]
+          ),
+        )
+      );
   }
 
   Center _buildFailureState(BuildContext context) {
@@ -121,7 +151,6 @@ class _MovieListState extends State<MovieList> {
   }
 
   void _loadPage() {
-    print("PAGE: $_page");
     _cubit.loadNextPage(_page);
   }
 

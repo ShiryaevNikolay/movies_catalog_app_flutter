@@ -50,3 +50,35 @@ class MovieInitialized extends MovieState {
       hasError: hasError ?? this.hasError
     );
 }
+
+class MovieSearched extends MovieState {
+  final List<dynamic> movies;
+  final String text;
+  final bool isLoading;
+  final bool hasError;
+
+  MovieSearched({this.movies, this.isLoading, this.hasError, this.text});
+
+  factory MovieSearched.successSearch(List<dynamic> movies) =>
+    MovieSearched(
+      movies: movies,
+      isLoading: false,
+      hasError: false
+    );
+
+  factory MovieSearched.loadingSearch() => 
+    MovieSearched(
+      movies: [],
+      isLoading: true,
+      hasError: false
+    );
+
+  factory MovieSearched.failureSearch(String text) => 
+    MovieSearched(
+      movies: [],
+      isLoading: false,
+      hasError: true,
+      text: text
+    );
+
+}

@@ -36,4 +36,18 @@ class MovieCubit extends Cubit<MovieState> {
       emit(MovieInitialized.failure((state as MovieInitialized).movies));
     }
   }
+
+  Future<void> searchMovie(String search) async {
+    try {
+      emit(MovieSearched.loadingSearch());
+
+      final List<Movie> _loadedListMovie = await repository.searchMovie(search);
+
+      print(_loadedListMovie[0]);
+
+      emit(MovieSearched.successSearch(_loadedListMovie));
+    } catch (_) {
+      emit(MovieSearched.failureSearch(search));
+    }
+  }
 }
