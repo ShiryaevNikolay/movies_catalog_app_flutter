@@ -26,25 +26,27 @@ class MovieInitialized extends MovieState {
   final List<dynamic> movies;
   final bool isLoading;
   final bool hasError;
-  final bool hasReachedMax;
 
-  MovieInitialized({this.movies, this.isLoading, this.hasError, this.hasReachedMax});
+  MovieInitialized({this.movies, this.isLoading, this.hasError});
 
   factory MovieInitialized.success(List<dynamic> movies) => 
     MovieInitialized(
       movies: movies,
       isLoading: false,
-      hasError: false, 
-      hasReachedMax: false
+      hasError: false
     );
 
-  factory MovieInitialized.failure() => MovieInitialized(isLoading: false, hasError: true, hasReachedMax: false);
+  factory MovieInitialized.failure(List<dynamic> movies) => 
+    MovieInitialized(
+      movies: movies,
+      isLoading: false, 
+      hasError: true
+    );
 
-  MovieInitialized copyWith({List<dynamic> movies, bool isLoading, bool hasError, bool hasReachedMax}) =>
+  MovieInitialized copyWith({List<dynamic> movies, bool isLoading, bool hasError}) =>
     MovieInitialized(
       movies: movies ?? this.movies,
       isLoading: isLoading ?? this.isLoading,
-      hasError: hasError ?? this.hasError,
-      hasReachedMax: hasReachedMax ?? this.hasReachedMax
+      hasError: hasError ?? this.hasError
     );
 }

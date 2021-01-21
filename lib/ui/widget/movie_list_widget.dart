@@ -1,12 +1,8 @@
-// import 'package:film_catalog_app_flutter/domain/bloc/movie_bloc.dart';
-// import 'package:film_catalog_app_flutter/domain/bloc/movie_event.dart';
-// import 'package:film_catalog_app_flutter/domain/bloc/movie_state.dart';
 import 'package:film_catalog_app_flutter/domain/cubit/movie_cubit.dart';
 import 'package:film_catalog_app_flutter/domain/cubit/movie_state.dart';
 import 'package:film_catalog_app_flutter/ui/view/movie_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pagination_view/widgets/bottom_loader.dart';
 
 class MovieList extends StatefulWidget {
 
@@ -19,42 +15,38 @@ class _MovieListState extends State<MovieList> {
   int _page = 1;
   MovieCubit _cubit;
   ScrollController _scrollController = ScrollController();
+  var _refreshKey = GlobalKey<RefreshIndicatorState>();
 
   @override
   void initState() {
     super.initState();
+    _cubit = BlocProvider.of<MovieCubit>(context);
     _scrollController.addListener(_onScroll);
   }
 
   @override
   Widget build(BuildContext context) {
-    
-    _cubit = BlocProvider.of<MovieCubit>(context);
-
-    _cubit.fetchMovie();
-
     return BlocBuilder<MovieCubit, MovieState>(
       builder: (context, state) {
-        if (state is MovieUninitialized) {
-          if (state.isLoading) {
-            return _buildLoadingState();
-          }
-          if (state.hasError) {
-            return _buildFailureState(context);
-          }
-        }
-
-        if (state is MovieInitialized) {
-          if (state.hasError) {
-            // показываем snackbar ошибки
-            Scaffold.of(context).hideCurrentSnackBar();
-            Scaffold.of(context).showSnackBar(SnackBar(content: Text("Проверьте ваше соединение с интернетом и попробуйте ещё раз"))); 
-          }
-          return _buildSuccessState(state);
-        }
-        return _buildInitialState(context);
+        return currentState(context, state);
       }
     );
+  }
+
+  Widget currentState(BuildContext context, MovieState state) {
+    if (state is MovieUninitialized) {
+      if (state.isLoading) {
+        return _buildLoadingState();
+      }
+      if (state.hasError) {
+        return _buildFailureState(context);
+      }
+    }
+
+    if (state is MovieInitialized) {
+      return _buildSuccessState(state);
+    }
+    return _buildInitialState(context);
   }
 
   Center _buildFailureState(BuildContext context) {
@@ -75,9 +67,21 @@ class _MovieListState extends State<MovieList> {
   ListView _buildSuccessState(MovieInitialized state) {
     return ListView.builder(
           itemCount: state.movies.length + 1,
-          itemBuilder: (context, index) => index >= state.movies.length
-            ? BottomLoader()
-            : MovieCard(state.movies[index]),
+          itemBuilder: (context, index) {
+            if (index < state.movies.length) {
+              return MovieCard(state.movies[index]);
+            } else if (state.isLoading) {
+              return Padding(
+                padding: EdgeInsets.all(20),
+                child: Center(child: CircularProgressIndicator()),
+              );
+            } else {
+              return Padding(
+                padding: const EdgeInsets.all(10),
+                child: Center(child: Text("Данных нет", style: TextStyle(color: Colors.white),)),
+              );
+            }
+          },
           controller: _scrollController,
         );
   }
@@ -95,6 +99,13 @@ class _MovieListState extends State<MovieList> {
             child: Text("Список пуст. Попробуйте обновить", textAlign: TextAlign.center, style: TextStyle(color: Colors.white),)
           )
         );
+  }
+
+  Future<Null> refreshList() async {
+    _refreshKey.currentState.show(atTop: false);
+    _page++;
+    _cubit.loadNextPage(_page);
+    return null;
   }
 
   void _onScroll() {
