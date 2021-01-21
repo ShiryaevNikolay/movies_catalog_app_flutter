@@ -1,4 +1,4 @@
-class Movie {
+class MovieNetwork {
 
   int mId;
   String mPosterPath;
@@ -15,7 +15,7 @@ class Movie {
   bool mVideo;
   int mVoteAverage;
 
-  Movie({
+  MovieNetwork({
     this.mId, 
     this.mPosterPath, 
     this.mAdult, 
@@ -32,7 +32,7 @@ class Movie {
     this.mVoteAverage
   });
 
-  factory Movie.fromJson(Map<String, dynamic> json) => Movie(
+  factory MovieNetwork.fromJson(Map<String, dynamic> json) => MovieNetwork(
     mId: json["id"],
     mTitle: json["title"],
     mOverview: json["overview"],

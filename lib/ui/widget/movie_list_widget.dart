@@ -43,11 +43,9 @@ class _MovieListState extends State<MovieList> {
     }
 
     if (state is MovieInitialized) {
-
       if (!state.hasError && !state.isLoading) {
         _page++;
       }
-
       return _buildSuccessState(state);
     }
 
@@ -57,6 +55,7 @@ class _MovieListState extends State<MovieList> {
       }
       return _buildSuccessSearchState(state);
     }
+
     return _buildInitialState(context);
   }
 
