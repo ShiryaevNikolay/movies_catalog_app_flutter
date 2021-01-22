@@ -59,12 +59,19 @@ class _MovieListState extends State<MovieList> {
     return _buildInitialState(context);
   }
 
-  ListView _buildSuccessSearchState(MovieSearched state) {
-    return ListView.builder(
-        itemCount: state.movies.length,
-        itemBuilder: (context, index) => MovieCard(state.movies[index]),
-        controller: _scrollController,
-      );
+  Column _buildSuccessSearchState(MovieSearched state) {
+    return Column(
+      children: [
+        state.isLoading ? LinearProgressIndicator() : SizedBox(),
+        Expanded(
+          child: ListView.builder(
+            itemCount: state.movies.length,
+            itemBuilder: (context, index) => MovieCard(state.movies[index]),
+            controller: _scrollController,
+          ),
+        )
+      ],
+    );
   }
 
   Center _buildFailureSeatchState(BuildContext context, MovieSearched state) {

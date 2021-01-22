@@ -27,7 +27,7 @@ class MovieCubit extends Cubit<MovieState> {
   Future<void> loadNextPage(int page) async {
     try {
       // обвновляем state: показываем индикатор загрузки
-      emit((state as MovieInitialized).copyWith(isLoading: true));
+      emit((state as MovieInitialized).copyWith(isLoading: true, hasError: false));
       // получаем данные
       final List<MovieNetwork> _loadedListMovie = await repository.getMovie(page);
       // обновляем state: показываем данные
