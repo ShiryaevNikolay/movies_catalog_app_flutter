@@ -35,8 +35,6 @@ class _CheckFavoriteState extends State<CheckFavorite> {
 
         MovieDbData favoriteMovie;
 
-        print("MOVIES: $movies");
-
         int i = 0;
 
         _isChecked = false;
@@ -64,10 +62,8 @@ class _CheckFavoriteState extends State<CheckFavorite> {
     setState(() {
       _isChecked = !_isChecked;
       if (_isChecked) {
-        print("INSERT");
         _cubit.insertFavoriteMovie(new MovieDbData(id: null, movieId: widget._movie.mId));
       } else {
-        print("DELETE");
         _cubit.deleteFavoriteMovie(movie);
       }
     });
