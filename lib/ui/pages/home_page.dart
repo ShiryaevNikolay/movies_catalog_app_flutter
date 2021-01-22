@@ -1,16 +1,10 @@
 // import 'package:film_catalog_app_flutter/domain/bloc/movie_bloc.dart';
 import 'package:film_catalog_app_flutter/domain/cubit/movie_cubit.dart';
 import 'package:film_catalog_app_flutter/domain/cubit/movie_state.dart';
-import 'package:film_catalog_app_flutter/domain/repository/repository.dart';
 import 'package:film_catalog_app_flutter/ui/view/search_view.dart';
 import 'package:film_catalog_app_flutter/ui/widget/movie_list_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-// class HomePage extends StatefulWidget {  
-//   @override
-//   _HomePageState createState() => _HomePageState();
-// }
 
 class HomePage extends StatefulWidget {
 

@@ -1,9 +1,12 @@
 import 'package:date_format/date_format.dart';
+import 'package:film_catalog_app_flutter/data/model/movie_network.dart';
 import 'package:film_catalog_app_flutter/ui/view/favorite_view.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class MovieCard extends StatefulWidget {
+
+  MovieNetwork _movie;
 
   String _mTitle = "";
   String _mOverview = "";
@@ -11,7 +14,8 @@ class MovieCard extends StatefulWidget {
   String _mDate = "";
 
   MovieCard (dynamic movie) {
-    print(movie);
+    _movie = movie;
+
     this._mTitle = movie.mTitle;
     this._mOverview = movie.mOverview;
     this._mImgUrl = movie.mPosterPath;
@@ -101,7 +105,7 @@ class _MovieCardState extends State<MovieCard> {
                             )
                           ]
                         ),
-                        CheckFavorite()
+                        CheckFavorite(widget._movie)
                       ]
                     )
                   ]

@@ -1,5 +1,3 @@
-import 'package:flutter/cupertino.dart';
-
 abstract class MovieState {}
 
 class MovieUninitialized extends MovieState {

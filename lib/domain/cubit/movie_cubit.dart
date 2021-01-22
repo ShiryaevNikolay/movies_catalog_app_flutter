@@ -1,3 +1,4 @@
+import 'package:film_catalog_app_flutter/data/database/database.dart';
 import 'package:film_catalog_app_flutter/data/model/movie_network.dart';
 import 'package:film_catalog_app_flutter/domain/cubit/movie_state.dart';
 import 'package:film_catalog_app_flutter/domain/repository/repository.dart';
@@ -50,4 +51,12 @@ class MovieCubit extends Cubit<MovieState> {
       emit(MovieSearched.failureSearch(search));
     }
   }
+
+  Future<List<MovieDbData>> getFavoriteMovie() => repository.getFavoriteMovie();
+
+  Stream<List<MovieDbData>> watchFavoriteMovie() => repository.watchFavoriteMovie();
+
+  Future<void> insertFavoriteMovie(MovieDbData movie) => repository.insertFavoriteMovie(movie);
+
+  Future<void> deleteFavoriteMovie(MovieDbData movie) => repository.deleteFavoriteMovie(movie);
 }
